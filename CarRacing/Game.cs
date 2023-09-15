@@ -136,6 +136,7 @@ namespace CarRacing
 
             cars.Sort();
             cars.Reverse();
+
             for (int i = 0; i < cars.Count; i++)
                 cars[i].Position = i + 1;
         }

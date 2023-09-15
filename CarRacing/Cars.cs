@@ -15,7 +15,21 @@ namespace CarRacing
 
         public abstract int MaxSpeed { get; }
         public abstract int MinSpeed { get; }
-        public int Position { get => _position; set => _position = value; }
+        public int Position 
+        { 
+            get => _position; 
+            set 
+            {
+                try
+                {
+                    _position = value;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            } 
+        }
 
 
         
