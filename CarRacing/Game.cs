@@ -8,7 +8,7 @@ namespace CarRacing
 {
 
     public delegate void CarMovingDelegate();
-    public delegate int CarUpdateDistanceDelegate();
+    public delegate void CarUpdateDistanceDelegate();
 
 
     internal static class GameDisplay
@@ -74,6 +74,7 @@ namespace CarRacing
         }
         static public void DisplayMainMenu()
         {
+            Console.Clear();
             Console.WriteLine("!!!CAR RACING!!!");
             Console.WriteLine("1 - One car");
             Console.WriteLine("2 - Two cars");
@@ -81,6 +82,7 @@ namespace CarRacing
         }
         static public void DisplayChoiceMenu()
         {
+            Console.Clear();
             Console.WriteLine("!!!CHOOSE YOUR CAR!!!");
             Console.WriteLine("1 - Sport car");
             Console.WriteLine("2 - Light car");
@@ -142,10 +144,11 @@ namespace CarRacing
         }
         private void ProccessOfRacing()
         {
-            while (carUpdateDistance() != -1)
+            while (true)
             {
                 Console.Clear();
 
+                carUpdateDistance();
                 carMoving();
                 UpdateCarsPositions();
                 GameDisplay.DisplayPositions(cars);
@@ -192,11 +195,9 @@ namespace CarRacing
         {
             int carsCount = 0;
             while((carsCount = ChoiceMainMenu()) != 1 && carsCount != 2 && carsCount != 3)
-                Console.Clear();
-
+                
             while(carsCount != 0)
             {
-                Console.Clear();
                 GameDisplay.DisplayChoiceMenu();
                 if (AddCarFromChoice(Convert.ToInt32(Console.ReadLine())))
                     carsCount--;            
