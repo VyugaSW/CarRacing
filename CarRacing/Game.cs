@@ -140,8 +140,8 @@ namespace CarRacing
             {
                 Console.Clear();
 
-                carUpdateDistance();
                 carMoving();
+                carUpdateDistance();
                 UpdateCarsPositions();
                 GameDisplay.DisplayPositions(cars);
 
