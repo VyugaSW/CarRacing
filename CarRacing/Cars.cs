@@ -12,8 +12,6 @@ namespace CarRacing
     {
         protected static int DistanceForFinish = 10000;
 
-        public abstract int MaxSpeed { get; }
-        public abstract int MinSpeed { get; }
         public int Position 
         { 
             get => _position; 
@@ -33,7 +31,8 @@ namespace CarRacing
         protected int _position = 0;
         protected int _speed = 0;
         protected int _distance = 0;
-
+        protected static int maxSpeed = 0;
+        protected static int minSpeed = 0;
 
         public int CompareTo(object obj)
         {
@@ -54,7 +53,7 @@ namespace CarRacing
         public void Move()
         {
             Random random = new Random();
-            _speed = random.Next(MinSpeed, MaxSpeed);
+            _speed = random.Next(minSpeed, maxSpeed);
         }
         public bool Finish()
         {
@@ -69,52 +68,52 @@ namespace CarRacing
 
     internal class SportCar : Car
     {
-        static int _maxSpeed = 200;
-        static int _minSpeed = 90;
-
-
-        public override int MaxSpeed { get => _maxSpeed; }
-        public override int MinSpeed { get => _minSpeed; }
-
-        public SportCar() : base() { }
+        public SportCar()
+        {
+            if (maxSpeed == 0 || minSpeed == 0)
+            {
+                maxSpeed = 170;
+                minSpeed = 90;
+            }
+        }
 
     }
 
     internal class CargoCar : Car
     {
-        static int _maxSpeed = 135;
-        static int _minSpeed = 85;
-
-        public override int MaxSpeed { get => _maxSpeed; }
-        public override int MinSpeed { get => _minSpeed; }
-
-        public CargoCar() : base() { }
-
-
-
+        public CargoCar()
+        {
+            if (maxSpeed == 0 || minSpeed == 0)
+            {
+                maxSpeed = 130;
+                minSpeed = 125;
+            }
+        }
 
     }
 
     internal class LightCar : Car
     {
-        static int _maxSpeed = 160;
-        static int _minSpeed = 120;
-
-        public override int MaxSpeed { get => _maxSpeed; }
-        public override int MinSpeed { get => _minSpeed; }
-
-        public LightCar() : base() { }
+        public LightCar()
+        {
+            if (maxSpeed == 0 || minSpeed == 0)
+            {
+                maxSpeed = 150;
+                minSpeed = 115;
+            }
+        }
     }
 
     internal class Bus : Car
     {
-        static int _maxSpeed = 120;
-        static int _minSpeed = 100;
-
-        public override int MaxSpeed { get => _maxSpeed; }
-        public override int MinSpeed { get => _minSpeed; }
-
-        public Bus() : base() { }
+        public Bus()
+        {
+            if (maxSpeed == 0 || minSpeed == 0)
+            {
+                maxSpeed = 120;
+                minSpeed = 100;
+            }
+        }
     }
 
 
