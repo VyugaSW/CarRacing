@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 namespace CarRacing
 {
 
-    public delegate bool CarFinishDelegate();
-
     internal abstract class Car : IComparable
     {
-        protected const int DistanceForFinish = 10000;
+        protected static int DistanceForFinish = 10000;
 
         public abstract int MaxSpeed { get; }
         public abstract int MinSpeed { get; }
@@ -30,19 +28,12 @@ namespace CarRacing
                     throw;
                 }
             } 
-        }
-
-        public event CarFinishDelegate CarFinishEvent;
-        
+        }    
 
         protected int _position = 0;
         protected int _speed = 0;
         protected int _distance = 0;
 
-        public Car()
-        {
-            CarFinishEvent += Finish;
-        }
 
         public int CompareTo(object obj)
         {
@@ -56,22 +47,20 @@ namespace CarRacing
                 $"Current speed: {_speed}\nPosition: {_position}\n" +
                 $"Distance: {_distance}";
         }
-        public bool? UpdateDistancePerOneSecond()
+        public void UpdateDistancePerOneSecond()
         {
-            if (_distance < DistanceForFinish)
-                _distance += _speed;
-            else
-                return CarFinishEvent?.Invoke();
-            return false;
+            _distance += _speed;
         }
         public void Move()
         {
             Random random = new Random();
             _speed = random.Next(MinSpeed, MaxSpeed);
         }
-        private bool Finish()
+        public bool Finish()
         {
-            return true;
+            if (_distance > DistanceForFinish)
+                return true;
+            return false;
         }
 
     }

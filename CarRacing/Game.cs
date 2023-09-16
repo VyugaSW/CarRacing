@@ -117,18 +117,10 @@ namespace CarRacing
         }
         private void AddFunctionInDelegate()
         {
-            for(int i = cars.Count()-1; i > -1 ; i--)
+            foreach(Car car in cars)
             {
-                carMoving += cars[i].Move;
-                carUpdateDistance += cars[i].UpdateDistancePerOneSecond;
-            }
-        }
-        private void RemoveFunctionFromDelegate()
-        {
-            foreach (Car car in cars)
-            {
-                carMoving -= car.Move;
-                carUpdateDistance -= car.UpdateDistancePerOneSecond;
+                carMoving += car.Move;
+                carUpdateDistance += car.UpdateDistancePerOneSecond;
             }
         }
         private void UpdateCarsPositions()
@@ -144,7 +136,7 @@ namespace CarRacing
         }
         private void ProccessOfRacing()
         {
-            while (true)
+            while (!cars[0].Finish())
             {
                 Console.Clear();
 
@@ -152,10 +144,6 @@ namespace CarRacing
                 carMoving();
                 UpdateCarsPositions();
                 GameDisplay.DisplayPositions(cars);
-
-
-                RemoveFunctionFromDelegate();
-                AddFunctionInDelegate();
 
                 Console.ReadKey();
             }
@@ -194,8 +182,10 @@ namespace CarRacing
         private void ChoiceMenuCarsAdd()
         {
             int carsCount = 0;
-            while((carsCount = ChoiceMainMenu()) != 1 && carsCount != 2 && carsCount != 3)
-                
+
+            while ((carsCount = ChoiceMainMenu()) != 1 && carsCount != 2 && carsCount != 3)
+                continue;
+
             while(carsCount != 0)
             {
                 GameDisplay.DisplayChoiceMenu();
