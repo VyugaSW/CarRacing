@@ -63,6 +63,7 @@ namespace CarRacing
         }
         static public void DisplayPositions(List<Car> cars)
         {
+            Console.Clear();
             Console.WriteLine("(Press Enter to continue the racing)\n");
             foreach (Car car in cars)
             {
@@ -70,7 +71,7 @@ namespace CarRacing
                 Console.WriteLine(CarImagine(car));
                 Console.WriteLine("--------------------------");
             }
-
+            Console.ReadKey();
         }
         static public void DisplayMainMenu()
         {
@@ -128,24 +129,20 @@ namespace CarRacing
             if (cars.Count == 0)
                 throw new Exception();
 
-            cars.Sort();
-            cars.Reverse();
+            cars.Sort(); // In the class Car defined method of interface IComparable CompareTo(object obj)
+            cars.Reverse(); // To cars[0] was first
 
             for (int i = 0; i < cars.Count; i++)
                 cars[i].Position = i + 1;
         }
         private void ProccessOfRacing()
         {
-            while (!cars[0].Finish())
+            while (!cars[0].Finish()) 
             {
-                Console.Clear();
-
                 carMoving();
                 carUpdateDistance();
                 UpdateCarsPositions();
                 GameDisplay.DisplayPositions(cars);
-
-                Console.ReadKey();
             }
         }
         private void EndOfRacing()
@@ -195,14 +192,12 @@ namespace CarRacing
         }
         
 
-        public int GameMain()
+        public void GameMain()
         {
             ChoiceMenuCarsAdd();
             AddFunctionInDelegate();
             ProccessOfRacing();
             EndOfRacing();
-
-            return 1;
         }
 
     }

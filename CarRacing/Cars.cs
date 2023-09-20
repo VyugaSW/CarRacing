@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 namespace CarRacing
 {
 
+    public delegate bool FinishDelegate();
+
+    // I didn't come up with that, how do so to end the game with event, except the situation,
+    // when I end the game in the class Car. But I think end the game in the class Car is incorrectly
+
     internal abstract class Car : IComparable
     {
         protected static int DistanceForFinish = 10000;
@@ -19,21 +24,30 @@ namespace CarRacing
             get => _position; 
             set 
             {
-                try
-                {
-                    _position = value;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                PropertyExceptionsCatcher(ref _position, value);
             } 
         }    
+        public int Distance 
+        { 
+            get => _distance;
+            private set
+            {
+                PropertyExceptionsCatcher(ref _distance, value);
+                FinishEvent?.Invoke();
+            }
+        
+        }
+
+        FinishDelegate FinishEvent;
 
         protected int _position = 0;
         protected int _speed = 0;
         protected int _distance = 0;
 
+        public Car()
+        {
+            FinishEvent += Finish;
+        }
 
         public int CompareTo(object obj)
         {
@@ -41,15 +55,19 @@ namespace CarRacing
             else throw new ArgumentException();
         }
 
-        public override string ToString()
+        private void PropertyExceptionsCatcher(ref int field, int value)
         {
-            return $"Type of car: {this.GetType().ToString().Replace("CarRacing.", "")}\n" +
-                $"Current speed: {_speed}\nPosition: {_position}\n" +
-                $"Distance: {_distance}";
+            try
+            {
+                if (value < 0)
+                    throw new FormatException(nameof(value) + " < 0");
+                field = value;
+            }
+            catch (Exception) { throw; }
         }
         public void UpdateDistancePerOneSecond()
         {
-            _distance += _speed;
+            Distance += _speed;
         }
         public void Move()
         {
@@ -62,7 +80,12 @@ namespace CarRacing
                 return true;
             return false;
         }
-
+        public override string ToString()
+        {
+            return $"Type of car: {this.GetType().ToString().Replace("CarRacing.", "")}\n" +
+                $"Current speed: {_speed}\nPosition: {_position}\n" +
+                $"Distance: {_distance}";
+        }
     }
 
  
